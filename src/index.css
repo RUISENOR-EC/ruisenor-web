@@ -1,3 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cacao: #542d1c;
+  --color-dorado: #e5b651;
+  --color-crema: #fff8ed;
+  --color-verde-natural: #3e6b45;
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
