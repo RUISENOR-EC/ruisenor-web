@@ -4,6 +4,15 @@ Sitio web oficial para presentar la marca, contar su historia, mostrar el catál
 
 **Estado:** base técnica en desarrollo.
 
+## Dirección visual actual
+
+La propuesta usa el concepto **“Etiqueta premium de producto”**: la web extiende el lenguaje real del empaque de Ruiseñor con fondos espresso, marfil, dorado, rojo puntual, líneas de etiqueta y fotografías entregadas por la marca. No se usarán ilustraciones inventadas ni componentes genéricos de plantilla.
+
+- Recursos de marca: `src/assets/brand/`.
+- Catálogo actual: chocolate y café.
+- Mascarillas: recurso pendiente de confirmar antes de publicarlo.
+- Precios, fecha de feria, ubicación y número de WhatsApp siguen pendientes de confirmación.
+
 ## Objetivos
 
 - Comunicar la identidad artesanal y ecuatoriana de Ruiseñor Chocolate.
@@ -18,7 +27,10 @@ Sitio web oficial para presentar la marca, contar su historia, mostrar el catál
 - Vite 8 para desarrollo y compilación.
 - Supabase para base de datos, Storage y futuras funciones.
 - Tailwind CSS v4 para utilidades, responsive y estados.
-- CSS Modules y variables CSS para estilos especiales y tokens de marca.
+- Variables CSS para tokens de marca y estilos especiales.
+- `motion` para entradas sutiles respetando `prefers-reduced-motion`.
+- `qrcode.react` para el código QR de la feria.
+- `@fontsource/cormorant-garamond` y `@fontsource/manrope` para tipografías locales.
 - Git y GitHub para control de versiones.
 - Despliegue previsto: Vercel, Netlify o Cloudflare Pages.
 
@@ -26,10 +38,11 @@ Sitio web oficial para presentar la marca, contar su historia, mostrar el catál
 
 Usaremos Tailwind para construir rápidamente layouts responsive, botones, tarjetas y estados visuales. La identidad de Ruiseñor se conservará mediante tokens propios definidos en `src/index.css` con `@theme`:
 
-- `cacao`: `#542D1C`.
-- `dorado`: `#E5B651`.
-- `crema`: `#FFF8ED`.
-- `verde-natural`: `#3E6B45`.
+- `espresso`: `#100E0D`.
+- `cacao`: `#2B1A14`.
+- `dorado`: `#C59A3A`.
+- `marfil`: `#F1EBE2`.
+- `rojo-marca`: `#C9002C`.
 
 Reglas de uso:
 
@@ -48,13 +61,15 @@ No se instalarán librerías innecesarias. La primera fase utilizará:
 | `motion` | Animaciones de entrada, hover, modal y transiciones | `npm install motion` |
 | `lucide-react` | Iconos SVG consistentes y accesibles | `npm install lucide-react` |
 | `@supabase/supabase-js` | Conexión con Supabase | Ya instalada |
+| `qrcode.react` | QR dinámico para feria y campañas | Ya instalada |
+| `@fontsource/cormorant-garamond` | Tipografía editorial de títulos | Ya instalada |
+| `@fontsource/manrope` | Tipografía legible para datos y navegación | Ya instalada |
 
 Se agregarán únicamente cuando la funcionalidad lo requiera:
 
 - `@tanstack/react-query`: caché y estados de consultas cuando el catálogo viva en Supabase.
 - `react-hook-form` + `zod`: formularios de contacto o panel administrativo.
 - `react-router-dom`: cuando existan rutas reales como `/catalogo` y `/producto/:slug`.
-- `qrcode.react`: solo si el QR debe generarse dinámicamente desde la aplicación.
 - `vitest` + Testing Library: pruebas de componentes y funcionalidades críticas.
 
 No se usará `framer-motion`; el nombre actual del paquete es `motion` y se importa desde `motion/react`.
@@ -63,7 +78,7 @@ No se usará `framer-motion`; el nombre actual del paquete es `motion` y se impo
 
 ```bash
 npm install
-npm install tailwindcss @tailwindcss/vite motion lucide-react
+npm install tailwindcss @tailwindcss/vite motion lucide-react qrcode.react @fontsource/cormorant-garamond @fontsource/manrope
 npm run dev
 ```
 
@@ -94,16 +109,17 @@ VITE_SUPABASE_PUBLISHABLE_KEY=
 
 ```text
 src/
-├── assets/                 # imágenes y logos importados por React
+├── assets/
+│   └── brand/              # logo y fotografías reales entregadas por la marca
 ├── components/
-│   ├── ui/                 # Button, Card, Modal
-│   ├── layout/             # Header, Footer, navegación
-│   └── sections/           # Hero, historia, feria, productos
+│   ├── ui/                 # BrandLogo, SectionKicker, Reveal
+│   ├── layout/             # Header y Footer
+│   └── sections/           # Hero, líneas, catálogo, historia, feria, redes, contacto
 ├── features/
-│   ├── catalog/            # productos, tarjetas, consultas y tipos
-│   ├── contact/            # WhatsApp y contacto
-│   └── qr/                 # experiencia de feria mediante QR
-├── pages/                  # páginas completas
+│   ├── catalog/            # datos y ProductCard
+│   ├── contact/            # WhatsAppButton
+│   └── qr/                 # QrExperience
+├── pages/                  # HomePage y futuras páginas
 ├── lib/                    # clientes externos, como Supabase
 ├── config/                 # marca, navegación y configuración
 ├── hooks/                  # hooks reutilizables
@@ -112,7 +128,7 @@ src/
 └── main.tsx
 ```
 
-Las consultas a Supabase deben vivir dentro de `features/*/*.service.ts`; los componentes visuales no deben consultar la base de datos directamente.
+`App.tsx` solo compone la aplicación. Las secciones viven en `components/sections`, los datos del catálogo en `features/catalog` y las integraciones en `features`. Las consultas a Supabase deben vivir dentro de `features/*/*.service.ts`; los componentes visuales no deben consultar la base de datos directamente.
 
 ## Supabase
 
@@ -155,9 +171,10 @@ Tipos sugeridos: `feat`, `fix`, `style`, `docs`, `refactor`, `chore`.
 
 ## Identidad visual
 
-- Cacao: `#542D1C`
-- Dorado: `#E5B651`
-- Crema: `#FFF8ED`
-- Verde natural: `#3E6B45`
+- Espresso: `#100E0D`
+- Cacao: `#2B1A14`
+- Dorado: `#C59A3A`
+- Marfil: `#F1EBE2`
+- Rojo del isotipo: `#C9002C`
 
-La interfaz debe mantener una sensación artesanal, cálida, natural y elegante.
+La interfaz debe mantener una sensación elegante, intensa, artesanal y coherente con los empaques reales.
