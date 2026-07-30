@@ -15,9 +15,4 @@ export const brand = {
       href: 'https://www.facebook.com/share/1cQBkNGofz/',
     },
   ],
-  fair: {
-    name: 'Feria del Cangrejo',
-    date: 'Fecha por confirmar',
-    location: 'Ubicación por confirmar',
-  },
 } as const

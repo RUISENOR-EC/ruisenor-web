@@ -62,6 +62,7 @@ No se instalarán librerías innecesarias. La primera fase utilizará:
 | `lucide-react` | Iconos SVG consistentes y accesibles | `npm install lucide-react` |
 | `@supabase/supabase-js` | Conexión con Supabase | Ya instalada |
 | `qrcode.react` | QR dinámico para feria y campañas | Ya instalada |
+| `recharts` | Gráficas responsive del dashboard privado | `npm install recharts react-is` |
 | `@fontsource/cormorant-garamond` | Tipografía editorial de títulos | Ya instalada |
 | `@fontsource/manrope` | Tipografía legible para datos y navegación | Ya instalada |
 
@@ -78,7 +79,7 @@ No se usará `framer-motion`; el nombre actual del paquete es `motion` y se impo
 
 ```bash
 npm install
-npm install tailwindcss @tailwindcss/vite motion lucide-react qrcode.react @fontsource/cormorant-garamond @fontsource/manrope
+npm install tailwindcss @tailwindcss/vite motion lucide-react qrcode.react recharts react-is @fontsource/cormorant-garamond @fontsource/manrope
 npm run dev
 ```
 
@@ -131,6 +132,36 @@ src/
 `App.tsx` solo compone la aplicación. Las secciones viven en `components/sections`, los datos del catálogo en `features/catalog` y las integraciones en `features`. Las consultas a Supabase deben vivir dentro de `features/*/*.service.ts`; los componentes visuales no deben consultar la base de datos directamente.
 
 ## Supabase
+
+La primera integración de Supabase se limitará a la campaña de la feria y a sus métricas. El catálogo seguirá siendo local hasta que el negocio confirme que necesita administración.
+
+### Configuración inicial
+
+1. Crear el proyecto `ruisenor-web` en Supabase.
+2. Abrir `SQL Editor` y ejecutar `supabase/migrations/001_create_fair_analytics.sql`.
+3. En `Project Settings > API`, copiar la URL del proyecto y la clave pública.
+4. Guardarlas en `.env` sin subir ese archivo al repositorio:
+
+```env
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=tu-clave-publica
+```
+
+La tabla `campaigns` contiene la información editable de cada feria. `analytics_events` guarda visitas del QR, vistas de catálogo y clics hacia TikTok, Facebook y WhatsApp. Las estadísticas no son públicas: los visitantes solo pueden registrar eventos y el panel futuro podrá leerlos mediante un usuario autorizado.
+
+La carga de la campaña y el registro de eventos se coordinan desde `features/analytics/AnalyticsProvider.tsx`. Los datos de `fair.ts` se mantienen como respaldo para que la página siga mostrando contenido si la API no está disponible. El panel privado de analítica se construirá en una fase posterior, sin convertir todavía el catálogo en un administrador.
+
+### Dashboard privado
+
+La ruta `/admin/analytics` muestra las métricas de la campaña y usa un enlace mágico de Supabase Auth. Después de crear el usuario del dueño en `Authentication > Users`, se debe agregar su UUID como administrador:
+
+```sql
+insert into public.analytics_admins (user_id)
+values ('UUID_DEL_USUARIO')
+on conflict (user_id) do nothing;
+```
+
+En `Authentication > URL Configuration` se debe permitir la URL local `http://localhost:5173/admin/analytics` y, al publicar, la URL equivalente del dominio real.
 
 Modelo inicial recomendado:
 

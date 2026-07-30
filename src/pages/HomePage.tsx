@@ -7,11 +7,14 @@ import { HeroSection } from '../components/sections/HeroSection'
 import { ProductLinesSection } from '../components/sections/ProductLinesSection'
 import { SocialSection } from '../components/sections/SocialSection'
 import { StorySection } from '../components/sections/StorySection'
+import { ScrollSpine } from '../components/ui/ScrollSpine'
+import { navigation } from '../config/navigation'
 
 export function HomePage() {
   return (
     <>
       <Header />
+      <ScrollSpine items={navigation} />
       <main id="contenido" tabIndex={-1}>
         <HeroSection />
         <ProductLinesSection />

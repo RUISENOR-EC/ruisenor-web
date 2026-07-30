@@ -17,7 +17,11 @@ export function Header() {
 
         <nav aria-label="Navegación principal" className="hidden items-center gap-6 xl:flex">
           {navigation.map((item) => (
-            <a key={item.href} href={item.href} className="text-xs font-semibold text-marfil/70 transition-colors hover:text-dorado">
+            <a
+              key={item.href}
+              href={item.href}
+              className="relative pb-1 text-xs font-semibold text-marfil/70 transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-left after:scale-x-0 after:bg-dorado after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:text-dorado hover:after:scale-x-100"
+            >
               {item.label}
             </a>
           ))}
