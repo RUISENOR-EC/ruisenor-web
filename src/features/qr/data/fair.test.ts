@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getFairQrUrl, isLocalFairQrUrl } from './fair'
+import { getCampaignDetail, getFairQrUrl, isLocalFairQrUrl } from './fair'
 
 describe('getFairQrUrl', () => {
   it('siempre dirige a la página pública aunque se genere desde el panel', () => {
@@ -11,5 +11,11 @@ describe('getFairQrUrl', () => {
   it('identifica una URL local que no se debe imprimir', () => {
     expect(isLocalFairQrUrl('http://127.0.0.1:5173/?campaign=feria-cangrejo-2026')).toBe(true)
     expect(isLocalFairQrUrl('https://ruisenor.netlify.app/?campaign=feria-cangrejo-2026')).toBe(false)
+  })
+
+  it('no publica datos de feria pendientes de confirmar', () => {
+    expect(getCampaignDetail('Fecha por confirmar')).toBeUndefined()
+    expect(getCampaignDetail('Contenido por confirmar')).toBeUndefined()
+    expect(getCampaignDetail('Sábado 12 de septiembre')).toBe('Sábado 12 de septiembre')
   })
 })

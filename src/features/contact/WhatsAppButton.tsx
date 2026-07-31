@@ -1,4 +1,4 @@
-import { MessageCircle } from 'lucide-react'
+import { FaWhatsapp } from 'react-icons/fa6'
 import { useAnalytics } from '../analytics/hooks'
 import { brand } from '../../config/brand'
 
@@ -26,7 +26,7 @@ export function WhatsAppButton({ label = 'Pedir por WhatsApp', className = '', m
       onClick={() => void track({ eventName: 'whatsapp_click', target: 'whatsapp', metadata })}
       className={`inline-flex min-h-12 items-center gap-3 bg-rojo-marca px-5 py-3 text-sm font-bold text-marfil transition hover:bg-cacao focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rojo-marca ${className}`}
     >
-      <MessageCircle size={17} aria-hidden="true" />
+      <FaWhatsapp size={18} aria-hidden="true" />
       {label}
     </a>
   )

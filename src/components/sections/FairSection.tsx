@@ -15,6 +15,11 @@ export function FairSection() {
 
   const content = campaign ?? fairData
   const qrValue = getFairQrUrl()
+  const fairDetails = [
+    { label: 'Fecha', value: content.date, Icon: CalendarDays },
+    { label: 'Lugar', value: content.location, Icon: MapPin },
+    { label: 'Stand', value: content.stand, Icon: Ticket },
+  ].filter((detail) => detail.value)
 
   return (
     <section id="feria" className="bg-dorado px-5 py-20 text-espresso lg:px-10 lg:py-24">
@@ -28,34 +33,26 @@ export function FairSection() {
             <span className="font-semibold text-espresso">{content.name}</span> conecta el stand con una recomendación breve, para que cada visitante pueda avanzar hacia el producto que quiere consultar.
           </p>
 
-          <div className="mt-8 grid max-w-xl gap-4 border-t border-espresso/20 pt-5 sm:grid-cols-3">
-            <div className="flex gap-3">
-              <CalendarDays size={18} aria-hidden="true" />
-              <div>
-                <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-espresso/85">Fecha</p>
-                <p className="mt-1 text-sm font-semibold">{content.date}</p>
-              </div>
+          {fairDetails.length > 0 && (
+            <div className="mt-8 grid max-w-xl gap-4 border-t border-espresso/20 pt-5 sm:grid-cols-3">
+              {fairDetails.map(({ label, value, Icon }) => (
+                <div key={label} className="flex gap-3">
+                  <Icon size={18} aria-hidden="true" />
+                  <div>
+                    <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-espresso/85">{label}</p>
+                    <p className="mt-1 text-sm font-semibold">{value}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="flex gap-3">
-              <MapPin size={18} aria-hidden="true" />
-              <div>
-                <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-espresso/85">Lugar</p>
-                <p className="mt-1 text-sm font-semibold">{content.location}</p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <Ticket size={18} aria-hidden="true" />
-              <div>
-                <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-espresso/85">Stand</p>
-                <p className="mt-1 text-sm font-semibold">{content.stand}</p>
-              </div>
-            </div>
-          </div>
+          )}
 
-          <div className="mt-7 max-w-xl border-l-2 border-espresso/40 pl-4 text-sm leading-6 text-espresso">
-            <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-espresso/85">Promoción en el QR</p>
-            <p className="mt-1 font-semibold text-espresso">{content.promotion}</p>
-          </div>
+          {content.promotion && (
+            <div className="mt-7 max-w-xl border-l-2 border-espresso/40 pl-4 text-sm leading-6 text-espresso">
+              <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-espresso/85">Promoción en el QR</p>
+              <p className="mt-1 font-semibold text-espresso">{content.promotion}</p>
+            </div>
+          )}
         </Reveal>
 
         <Reveal className="mx-auto w-full max-w-xs rotate-1">

@@ -1,5 +1,6 @@
-import { ArrowUpRight, Menu, MessageCircle, X } from 'lucide-react'
+import { ArrowUpRight, Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import { FaWhatsapp } from 'react-icons/fa6'
 import { brand } from '../../config/brand'
 import { navigation } from '../../config/navigation'
 import { BrandLogo } from '../ui/BrandLogo'
@@ -39,7 +40,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <button type="button" onClick={() => setIsMenuOpen((current) => !current)} aria-controls="mobile-navigation" aria-expanded={isMenuOpen} className="grid size-12 place-items-center border border-marfil/20 text-marfil transition hover:border-dorado hover:text-dorado lg:hidden"><span className="sr-only">{isMenuOpen ? 'Cerrar navegación' : 'Abrir navegación'}</span>{isMenuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}</button>
           <a href={brand.whatsappHref} className="inline-flex min-h-12 items-center gap-2 rounded-sm border border-dorado px-3 py-2 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-dorado transition hover:bg-dorado hover:text-espresso focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dorado">
-            <MessageCircle size={15} aria-hidden="true" />
+            <FaWhatsapp size={16} aria-hidden="true" />
             <span className="hidden sm:inline">WhatsApp</span>
             <ArrowUpRight size={14} aria-hidden="true" />
           </a>

@@ -21,7 +21,7 @@ export function CatalogSection() {
           <SectionKicker>Catálogo</SectionKicker>
           <div className="mt-5 flex flex-col justify-between gap-5 border-b border-cacao/20 pb-8 md:flex-row md:items-end">
             <h2 className="font-serif-brand text-5xl font-semibold leading-none text-cacao sm:text-7xl">Productos reales.<br /><span className="text-rojo-marca">Información clara.</span></h2>
-            <p className="max-w-sm text-sm leading-6 text-ink/70">Las fotos corresponden a los productos recibidos. Precios y disponibilidad se completarán con el negocio.</p>
+            <p className="max-w-sm text-sm leading-6 text-ink/70">Las fotos corresponden a los productos reales de Ruiseñor. Consulta disponibilidad directamente con la marca.</p>
           </div>
         </Reveal>
         <div className="mt-9 flex flex-wrap gap-2.5">

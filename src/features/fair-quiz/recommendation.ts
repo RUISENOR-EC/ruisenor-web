@@ -36,8 +36,8 @@ export const fairInterestOptions: FairQuizOption<FairInterest>[] = [
 const chocolatePreferenceOptions: FairQuizOption<Extract<FairPreference, 'intenso' | 'regalo'>>[] = [
   {
     value: 'intenso',
-    label: 'Una tableta para disfrutar',
-    description: 'Busco una opción práctica para mi momento de cacao.',
+    label: 'Pasta de cacao intensa',
+    description: 'Busco una opción de cacao puro para mi momento.',
   },
   {
     value: 'regalo',
@@ -89,7 +89,7 @@ export function getFairRecommendation(answers: FairQuizAnswers): FairRecommendat
   if (invalidCombination) return null
 
   const productId = answers.interest === 'chocolate'
-    ? answers.preference === 'intenso' ? 'tableta-cacao' : 'chocolate-artesanal'
+    ? answers.preference === 'intenso' ? 'pasta-cacao' : 'bombones-artesanales'
     : answers.preference === 'molido' ? 'cafe-molido' : 'cafe-tostado'
 
   const momentDescription = {

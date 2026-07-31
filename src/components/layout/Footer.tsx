@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react'
+import { FaWhatsapp } from 'react-icons/fa6'
 import { brand } from '../../config/brand'
 import { BrandLogo } from '../ui/BrandLogo'
 
@@ -13,7 +14,7 @@ export function Footer() {
         <div>
           <p className="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-dorado">Contacto</p>
           <p className="mt-3 text-sm text-marfil/70">{brand.phoneLabel}</p>
-          <a href={brand.whatsappHref} className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-dorado hover:text-marfil">Escribir por WhatsApp <ArrowUpRight size={14} aria-hidden="true" /></a>
+          <a href={brand.whatsappHref} className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-dorado hover:text-marfil"><FaWhatsapp size={16} aria-hidden="true" /> Escribir por WhatsApp <ArrowUpRight size={14} aria-hidden="true" /></a>
         </div>
         <div>
           <p className="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-dorado">Redes</p>

@@ -3,8 +3,8 @@ import { getFairRecommendation } from './recommendation'
 
 describe('getFairRecommendation', () => {
   it.each([
-    [{ interest: 'chocolate', preference: 'intenso', moment: 'para-mi' }, 'tableta-cacao'],
-    [{ interest: 'chocolate', preference: 'regalo', moment: 'regalo' }, 'chocolate-artesanal'],
+    [{ interest: 'chocolate', preference: 'intenso', moment: 'para-mi' }, 'pasta-cacao'],
+    [{ interest: 'chocolate', preference: 'regalo', moment: 'regalo' }, 'bombones-artesanales'],
     [{ interest: 'cafe', preference: 'molido', moment: 'compartir' }, 'cafe-molido'],
     [{ interest: 'cafe', preference: 'grano', moment: 'para-mi' }, 'cafe-tostado'],
   ] as const)('recomienda %s según las respuestas', (answers, productId) => {

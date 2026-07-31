@@ -1,19 +1,23 @@
 export type FairCampaignContent = {
   slug: string
   name: string
-  date: string
-  location: string
-  stand: string
-  promotion: string
+  date?: string
+  location?: string
+  stand?: string
+  promotion?: string
 }
 
 export const fairData: FairCampaignContent = {
   slug: 'feria-cangrejo-2026',
   name: 'Feria del Cangrejo',
-  date: 'Fecha por confirmar',
-  location: 'Ubicación por confirmar',
-  stand: 'Stand por confirmar',
-  promotion: 'Promoción por confirmar',
+}
+
+const pendingCampaignDetail = /(?:por confirmar|contenido por confirmar)/i
+
+export function getCampaignDetail(value?: string | null) {
+  const detail = value?.trim()
+
+  return detail && !pendingCampaignDetail.test(detail) ? detail : undefined
 }
 
 function getSiteUrl() {

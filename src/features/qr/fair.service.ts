@@ -1,5 +1,5 @@
 import { supabase } from '../../lib/supabase/client'
-import type { FairCampaignContent } from './data/fair'
+import { getCampaignDetail, type FairCampaignContent } from './data/fair'
 
 export type FairCampaign = FairCampaignContent & {
   id: string
@@ -20,10 +20,10 @@ export async function getFairCampaign(slug: string): Promise<FairCampaign | null
     id: data.id,
     slug: data.slug,
     name: data.name,
-    date: data.event_date,
-    location: data.location,
-    stand: data.stand,
-    promotion: data.promotion,
+    date: getCampaignDetail(data.event_date),
+    location: getCampaignDetail(data.location),
+    stand: getCampaignDetail(data.stand),
+    promotion: getCampaignDetail(data.promotion),
     active: data.active,
   }
 }
