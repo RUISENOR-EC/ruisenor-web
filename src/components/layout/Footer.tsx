@@ -27,7 +27,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="mx-auto mt-10 max-w-[1440px] border-t border-marfil/10 pt-5 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-marfil/50">© 2026 Ruiseñor · Datos de contacto pendientes de confirmación</div>
+      <div className="mx-auto mt-10 max-w-[1440px] border-t border-marfil/10 pt-5 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-marfil/50">© 2026 Ruiseñor</div>
     </footer>
   )
 }
