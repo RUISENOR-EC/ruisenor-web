@@ -8,7 +8,7 @@ import { BrandLogo } from '../../../components/ui/BrandLogo'
 import { CountUp } from '../../../components/ui/CountUp'
 import { Reveal } from '../../../components/ui/Reveal'
 import { supabase } from '../../../lib/supabase/client'
-import { fairData, getFairQrUrl } from '../../qr/data/fair'
+import { fairData, getFairQrUrl, isLocalFairQrUrl } from '../../qr/data/fair'
 import { getFairCampaign, type FairCampaign } from '../../qr/fair.service'
 import { getAnalyticsSummary, type AnalyticsSummary } from '../analytics.service'
 
@@ -143,6 +143,7 @@ function SocialChart({ summary }: { summary: AnalyticsSummary }) {
 function QrDownloadCard() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const qrValue = getFairQrUrl()
+  const isLocalQr = isLocalFairQrUrl(qrValue)
 
   function handleDownload() {
     const canvas = canvasRef.current
@@ -174,14 +175,15 @@ function QrDownloadCard() {
           <QRCodeCanvas
             ref={canvasRef}
             value={qrValue}
-            size={160}
+            size={1024}
             bgColor="#F1EBE2"
             fgColor="#100E0D"
             level="H"
-            imageSettings={{ src: ruisenorLogo, height: 34, width: 34, excavate: true }}
+            imageSettings={{ src: ruisenorLogo, height: 176, width: 176, excavate: true }}
+            className="h-auto w-40 max-w-full"
           />
         </div>
-        <p className="max-w-sm text-sm leading-6 text-ink/70">Es el mismo código que verán los visitantes en la sección de Feria del sitio público. Descárgalo para imprimirlo en el stand, tarjetas o material promocional.</p>
+        <div className="max-w-sm space-y-3 text-sm leading-6 text-ink/70"><p>Es el mismo código que verán los visitantes en la sección de Feria del sitio público. Se descarga a 1024 px para imprimirlo en el stand, tarjetas o material promocional.</p>{isLocalQr && <p className="border-l-2 border-rojo-marca pl-3 text-rojo-marca"><strong className="font-semibold">No lo imprimas todavía.</strong> Este QR apunta a una dirección local. Configura <code>VITE_PUBLIC_SITE_URL</code> con la URL de Netlify y vuelve a descargarlo.</p>}</div>
       </div>
     </article>
   )

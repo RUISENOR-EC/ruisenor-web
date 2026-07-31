@@ -16,10 +16,18 @@ export const fairData: FairCampaignContent = {
   promotion: 'Promoción por confirmar',
 }
 
-export function getFairQrUrl() {
-  if (typeof window === 'undefined') return `/?campaign=${fairData.slug}&utm_source=qr&utm_medium=offline#perfil`
+function getSiteUrl() {
+  const configuredUrl = import.meta.env.VITE_PUBLIC_SITE_URL?.trim()
+  if (configuredUrl) return configuredUrl
 
-  const url = new URL(window.location.href)
+  if (typeof window !== 'undefined') return window.location.origin
+
+  return 'http://localhost'
+}
+
+export function getFairQrUrl(siteUrl = getSiteUrl()) {
+  const url = new URL('/', siteUrl)
+
   url.searchParams.set('campaign', fairData.slug)
   url.searchParams.set('utm_source', 'qr')
   url.searchParams.set('utm_medium', 'offline')
@@ -27,4 +35,13 @@ export function getFairQrUrl() {
   url.hash = 'perfil'
 
   return url.toString()
+}
+
+export function isLocalFairQrUrl(qrUrl: string) {
+  try {
+    const { hostname } = new URL(qrUrl)
+    return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]'
+  } catch {
+    return true
+  }
 }

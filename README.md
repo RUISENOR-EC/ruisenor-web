@@ -98,7 +98,7 @@ npm run preview
 El archivo `netlify.toml` publica `dist` y ejecuta `npm run verify` antes de cada despliegue. Así, Netlify no publica un cambio que no haya pasado lint, pruebas y compilación.
 
 1. Conectar el repositorio a Netlify y usar la configuración detectada del archivo `netlify.toml`.
-2. Configurar `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` en **Site configuration > Environment variables**.
+2. Configurar `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` y `VITE_PUBLIC_SITE_URL` en **Site configuration > Environment variables**. Usa como valor de `VITE_PUBLIC_SITE_URL` la URL final de Netlify, por ejemplo `https://ruisenor.netlify.app`; así el QR funciona aunque se descargue desde el panel privado.
 3. Activar los **Deploy Previews** para los pull requests; el flujo de GitHub `Validar cambios` repite la misma verificación en cada PR y en `main`.
 4. En GitHub, marcar `Lint, pruebas y compilación` como comprobación requerida antes de fusionar a `main`.
 
@@ -115,6 +115,7 @@ Copy-Item .env.example .env.local
 ```env
 VITE_SUPABASE_URL=
 VITE_SUPABASE_PUBLISHABLE_KEY=
+VITE_PUBLIC_SITE_URL=https://tu-sitio.netlify.app
 ```
 
 `.env.local` nunca debe subirse a GitHub. La clave `service_role` nunca se coloca en React ni en el navegador; las tablas públicas deben protegerse con RLS.
