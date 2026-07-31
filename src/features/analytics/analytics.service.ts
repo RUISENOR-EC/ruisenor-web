@@ -26,6 +26,10 @@ export type AnalyticsSummary = {
   whatsappClicks: number
   productsViewed: number
   promotionViews: number
+  fairQuizStarts: number
+  fairQuizCompleted: number
+  fairRecommendationViews: number
+  fairQuizWhatsAppClicks: number
   interactions: number
   daily: DailyMetric[]
   topProducts: ProductMetric[]
@@ -56,7 +60,7 @@ function buildProductMetrics(rows: AnalyticsEventRow[]) {
   const products = new Map<string, number>()
 
   rows
-    .filter((row) => row.event_name === 'product_view')
+    .filter((row) => ['product_view', 'fair_recommendation_view'].includes(row.event_name))
     .forEach((row) => {
       const name = typeof row.metadata.productName === 'string' ? row.metadata.productName : row.target ?? 'Producto'
       products.set(name, (products.get(name) ?? 0) + 1)
@@ -97,6 +101,10 @@ export async function getAnalyticsSummary(campaignId: string, days: number | nul
     whatsappClicks: countByEvent(rows, 'whatsapp_click'),
     productsViewed: countByEvent(rows, 'product_view'),
     promotionViews: countByEvent(rows, 'promotion_view'),
+    fairQuizStarts: countByEvent(rows, 'fair_quiz_started'),
+    fairQuizCompleted: countByEvent(rows, 'fair_quiz_completed'),
+    fairRecommendationViews: countByEvent(rows, 'fair_recommendation_view'),
+    fairQuizWhatsAppClicks: rows.filter((row) => row.event_name === 'whatsapp_click' && row.metadata.entryPoint === 'fair_recommendation').length,
     interactions: rows.filter((row) => !['page_view', 'qr_visit'].includes(row.event_name)).length,
     daily: buildDailyMetrics(rows),
     topProducts: buildProductMetrics(rows),

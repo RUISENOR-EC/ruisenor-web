@@ -32,7 +32,7 @@ La propuesta usa el concepto **“Etiqueta premium de producto”**: la web exti
 - `qrcode.react` para el código QR de la feria.
 - `@fontsource/cormorant-garamond` y `@fontsource/manrope` para tipografías locales.
 - Git y GitHub para control de versiones.
-- Despliegue previsto: Vercel, Netlify o Cloudflare Pages.
+- Despliegue previsto: Netlify.
 
 ## Decisión de estilos: Tailwind + tokens de marca
 
@@ -87,9 +87,22 @@ Comandos de calidad:
 
 ```bash
 npm run lint
+npm run test
 npm run build
+npm run verify
 npm run preview
 ```
+
+## Despliegue en Netlify y control de calidad
+
+El archivo `netlify.toml` publica `dist` y ejecuta `npm run verify` antes de cada despliegue. Así, Netlify no publica un cambio que no haya pasado lint, pruebas y compilación.
+
+1. Conectar el repositorio a Netlify y usar la configuración detectada del archivo `netlify.toml`.
+2. Configurar `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` en **Site configuration > Environment variables**.
+3. Activar los **Deploy Previews** para los pull requests; el flujo de GitHub `Validar cambios` repite la misma verificación en cada PR y en `main`.
+4. En GitHub, marcar `Lint, pruebas y compilación` como comprobación requerida antes de fusionar a `main`.
+
+La redirección de Netlify conserva rutas directas como `/admin/analytics` para que React pueda mostrar el panel privado después de recargar la página.
 
 ## Variables de entorno
 

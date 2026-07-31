@@ -17,14 +17,14 @@ export const fairData: FairCampaignContent = {
 }
 
 export function getFairQrUrl() {
-  if (typeof window === 'undefined') return `/?campaign=${fairData.slug}&utm_source=qr&utm_medium=offline#feria`
+  if (typeof window === 'undefined') return `/?campaign=${fairData.slug}&utm_source=qr&utm_medium=offline#perfil`
 
   const url = new URL(window.location.href)
   url.searchParams.set('campaign', fairData.slug)
   url.searchParams.set('utm_source', 'qr')
   url.searchParams.set('utm_medium', 'offline')
   url.searchParams.set('utm_campaign', fairData.slug)
-  url.hash = 'feria'
+  url.hash = 'perfil'
 
   return url.toString()
 }

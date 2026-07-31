@@ -17,11 +17,11 @@ export function ProductLinesSection() {
           <SectionKicker>Dos líneas, una marca</SectionKicker>
           <div className="mt-5 flex flex-col justify-between gap-5 border-b border-cacao/20 pb-8 md:flex-row md:items-end">
             <h2 className="max-w-2xl font-serif-brand text-5xl font-semibold leading-[0.9] text-cacao sm:text-7xl">Elige tu forma de disfrutar Ruiseñor.</h2>
-            <p className="max-w-xs text-sm leading-6 text-ink/60">El catálogo se organizará por líneas para que el cliente encuentre el producto sin perderse.</p>
+            <p className="max-w-xs text-sm leading-6 text-ink/70">El catálogo se organizará por líneas para que el cliente encuentre el producto sin perderse.</p>
           </div>
         </Reveal>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-2">
+        <div className="mt-10 grid gap-5 md:grid-cols-2">
           <Reveal className="group relative min-h-[380px] overflow-hidden bg-cacao text-marfil">
             <motion.div ref={chocolateTilt.ref} style={chocolateTilt.style} className="tilt relative min-h-[380px] w-full">
               <img src={chocolateTablet} alt="Tableta de chocolate Ruiseñor" width={768} height={1376} loading="lazy" className="absolute inset-0 h-full w-full scale-110 object-cover transition duration-700 group-hover:scale-[1.18]" />

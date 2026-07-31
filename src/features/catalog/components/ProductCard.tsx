@@ -48,7 +48,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h3 className="font-serif-brand text-2xl font-semibold text-cacao">{product.name}</h3>
-            <p className="mt-2 text-sm leading-5 text-ink/60">{product.detail}</p>
+            <p className="mt-2 text-sm leading-5 text-ink/70">{product.detail}</p>
           </div>
           <span className="grid size-9 shrink-0 place-items-center border border-cacao/20 text-cacao transition group-hover:border-dorado group-hover:bg-dorado"><ArrowUpRight size={16} aria-hidden="true" /></span>
         </div>

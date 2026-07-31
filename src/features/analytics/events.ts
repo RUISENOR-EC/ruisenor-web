@@ -9,6 +9,10 @@ export type AnalyticsEventName =
   | 'promotion_view'
   | 'coupon_click'
   | 'social_view'
+  | 'fair_quiz_started'
+  | 'fair_quiz_answered'
+  | 'fair_quiz_completed'
+  | 'fair_recommendation_view'
 
 export type TrackEventInput = {
   campaignId: string

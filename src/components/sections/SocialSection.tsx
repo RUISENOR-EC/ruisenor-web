@@ -15,7 +15,7 @@ export function SocialSection() {
           <SectionKicker>Redes sociales</SectionKicker>
           <div className="mt-5 flex flex-col justify-between gap-5 border-b border-cacao/20 pb-8 md:flex-row md:items-end">
             <h2 className="font-serif-brand text-5xl font-semibold text-cacao sm:text-7xl">La marca también vive aquí<span className="text-rojo-marca">.</span></h2>
-            <p className="max-w-xs text-sm leading-6 text-ink/60">Conecta con los perfiles reales de Ruiseñor y descubre el día a día del negocio.</p>
+            <p className="max-w-xs text-sm leading-6 text-ink/70">Conecta con los perfiles reales de Ruiseñor y descubre el día a día del negocio.</p>
           </div>
         </Reveal>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -37,7 +37,7 @@ export function SocialSection() {
             </Reveal>
           ))}
         </div>
-        <p className="mt-5 text-xs text-ink/50">Instagram se agregará únicamente si la marca confirma una cuenta activa.</p>
+        <p className="mt-5 text-xs text-ink/70">Instagram se agregará únicamente si la marca confirma una cuenta activa.</p>
       </div>
     </section>
   )

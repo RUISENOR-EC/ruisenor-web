@@ -31,6 +31,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
   }
 
   body {
@@ -53,6 +54,13 @@
   button,
   a {
     -webkit-tap-highlight-color: transparent;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
   }
 }
 

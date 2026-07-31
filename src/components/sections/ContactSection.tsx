@@ -14,7 +14,7 @@ export function ContactSection() {
           <p className="mt-7 max-w-xl text-lg leading-8 text-marfil/60">El número oficial se colocará aquí y en el encabezado cuando el negocio lo confirme.</p>
           <WhatsAppButton className="mt-8" />
         </Reveal>
-        <Reveal className="border-l border-dorado pl-6 lg:pl-10">
+        <Reveal className="lg:border-l lg:border-dorado lg:pl-10">
           <div className="flex items-center gap-3 text-dorado"><Phone size={20} aria-hidden="true" /><span className="text-[0.62rem] font-bold uppercase tracking-[0.18em]">Teléfono / WhatsApp</span></div>
           <p className="mt-4 font-serif-brand text-3xl font-semibold text-marfil">{brand.phoneLabel}</p>
           <div className="mt-6 flex items-center gap-3 text-sm text-marfil/55"><MessageCircle size={16} aria-hidden="true" /> Respuesta directa del negocio</div>

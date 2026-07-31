@@ -15,6 +15,7 @@ dist-ssr
 .env.*
 !.env.example
 mockup-*.png
+docs/stitch-sections/
 
 # Editor directories and files
 .vscode/*

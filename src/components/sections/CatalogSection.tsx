@@ -21,7 +21,7 @@ export function CatalogSection() {
           <SectionKicker>Catálogo</SectionKicker>
           <div className="mt-5 flex flex-col justify-between gap-5 border-b border-cacao/20 pb-8 md:flex-row md:items-end">
             <h2 className="font-serif-brand text-5xl font-semibold leading-none text-cacao sm:text-7xl">Productos reales.<br /><span className="text-rojo-marca">Información clara.</span></h2>
-            <p className="max-w-sm text-sm leading-6 text-ink/60">Las fotos corresponden a los productos recibidos. Precios y disponibilidad se completarán con el negocio.</p>
+            <p className="max-w-sm text-sm leading-6 text-ink/70">Las fotos corresponden a los productos recibidos. Precios y disponibilidad se completarán con el negocio.</p>
           </div>
         </Reveal>
         <div className="mt-9 flex flex-wrap gap-2.5">
@@ -31,7 +31,7 @@ export function CatalogSection() {
               type="button"
               onClick={() => setFilter(category)}
               aria-pressed={filter === category}
-              className={`border px-[1.1rem] py-[0.55rem] text-[0.68rem] font-bold uppercase tracking-[0.1em] transition ${
+              className={`min-h-12 border px-[1.1rem] py-[0.55rem] text-[0.68rem] font-bold uppercase tracking-[0.1em] transition ${
                 filter === category
                   ? 'border-cacao bg-cacao text-crema'
                   : 'border-cacao/20 bg-transparent text-ink hover:border-cacao/40'
@@ -41,7 +41,7 @@ export function CatalogSection() {
             </button>
           ))}
         </div>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredProducts.map((product, index) => (
             <Reveal key={product.id} transition={{ duration: 0.5, delay: index * 0.06 }}>
               <ProductCard product={product} />

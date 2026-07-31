@@ -30,6 +30,10 @@ const EMPTY_SUMMARY: AnalyticsSummary = {
   whatsappClicks: 0,
   productsViewed: 0,
   promotionViews: 0,
+  fairQuizStarts: 0,
+  fairQuizCompleted: 0,
+  fairRecommendationViews: 0,
+  fairQuizWhatsAppClicks: 0,
   interactions: 0,
   daily: [],
   topProducts: [],
@@ -66,14 +70,35 @@ function MetricCard({ label, value, icon: Icon, accent = 'gold' }: { label: stri
   return (
     <article className="group relative overflow-hidden border border-cacao/15 bg-marfil p-5">
       <span className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-dorado via-dorado/70 to-dorado transition-transform duration-[400ms] ease-out group-hover:scale-x-100" aria-hidden="true" />
-      <div className="flex items-start justify-between gap-4"><p className="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-ink/55">{label}</p><span className={`grid size-9 place-items-center ${accent === 'red' ? 'bg-rojo-marca text-marfil' : 'bg-dorado text-espresso'}`}><Icon size={17} aria-hidden="true" /></span></div>
+      <div className="flex items-start justify-between gap-4"><p className="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-ink/70">{label}</p><span className={`grid size-9 place-items-center ${accent === 'red' ? 'bg-rojo-marca text-marfil' : 'bg-dorado text-espresso'}`}><Icon size={17} aria-hidden="true" /></span></div>
       <CountUp value={value} className="mt-5 block font-serif-brand text-5xl font-semibold leading-none text-cacao" />
     </article>
   )
 }
 
+function FairQuizFunnel({ summary }: { summary: AnalyticsSummary }) {
+  const completionRate = summary.fairQuizStarts ? Math.round((summary.fairQuizCompleted / summary.fairQuizStarts) * 100) : 0
+  const stages = [
+    { label: 'Iniciaron el perfil', value: summary.fairQuizStarts },
+    { label: 'Recibieron recomendación', value: summary.fairRecommendationViews },
+    { label: 'Consultaron por WhatsApp', value: summary.fairQuizWhatsAppClicks },
+  ]
+
+  return (
+    <article className="mt-8 overflow-hidden border border-cacao/15 bg-cacao text-marfil">
+      <div className="flex flex-col justify-between gap-5 border-b border-marfil/15 p-5 sm:flex-row sm:items-end sm:p-7">
+        <div><p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-dorado">Embudo de feria</p><h2 className="mt-2 font-serif-brand text-3xl font-semibold">Qué ocurre después de escanear el QR</h2></div>
+        <p className="text-sm text-marfil/60"><strong className="font-serif-brand text-3xl font-semibold text-dorado">{completionRate}%</strong> completa las tres respuestas</p>
+      </div>
+      <ol className="grid divide-y divide-marfil/15 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        {stages.map((stage, index) => <li key={stage.label} className="p-5 sm:p-7"><span className="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-dorado">0{index + 1}</span><CountUp value={stage.value} className="mt-4 block font-serif-brand text-5xl font-semibold leading-none" /><p className="mt-3 text-sm leading-5 text-marfil/60">{stage.label}</p></li>)}
+      </ol>
+    </article>
+  )
+}
+
 function TrafficChart({ data }: { data: AnalyticsSummary['daily'] }) {
-  if (!data.length) return <div className="grid min-h-60 place-items-center border border-dashed border-cacao/20 text-sm text-ink/50">Aún no hay visitas del QR en este periodo.</div>
+  if (!data.length) return <div className="grid min-h-60 place-items-center border border-dashed border-cacao/20 text-sm text-ink/70">Aún no hay visitas del QR en este periodo.</div>
 
   return (
     <div className="h-60 w-full">
@@ -81,8 +106,8 @@ function TrafficChart({ data }: { data: AnalyticsSummary['daily'] }) {
         <RechartsAreaChart data={data} margin={{ top: 12, right: 4, left: -22, bottom: 0 }}>
           <defs><linearGradient id="trafficFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#c9002c" stopOpacity={0.35} /><stop offset="100%" stopColor="#c9002c" stopOpacity={0.02} /></linearGradient></defs>
           <CartesianGrid vertical={false} stroke="#2b1a14" strokeDasharray="3 3" strokeOpacity={0.12} />
-          <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fill: '#2f241f', fillOpacity: 0.55, fontSize: 10 }} dy={8} />
-          <YAxis allowDecimals={false} axisLine={false} tickLine={false} tick={{ fill: '#2f241f', fillOpacity: 0.55, fontSize: 10 }} />
+          <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fill: '#2f241f', fillOpacity: 0.7, fontSize: 10 }} dy={8} />
+          <YAxis allowDecimals={false} axisLine={false} tickLine={false} tick={{ fill: '#2f241f', fillOpacity: 0.7, fontSize: 10 }} />
           <Tooltip content={<DashboardTooltip />} cursor={{ stroke: '#c59a3a', strokeDasharray: '3 3' }} />
           <Area type="monotone" dataKey="value" name="Visitas QR" stroke="#c9002c" strokeWidth={3} fill="url(#trafficFill)" activeDot={{ r: 5, fill: '#c59a3a', stroke: '#100e0d', strokeWidth: 2 }} isAnimationActive animationDuration={1300} animationEasing="ease-out" />
         </RechartsAreaChart>
@@ -103,8 +128,8 @@ function SocialChart({ summary }: { summary: AnalyticsSummary }) {
       <ResponsiveContainer width="100%" height="100%">
         <RechartsBarChart data={data} margin={{ top: 12, right: 4, left: -22, bottom: 0 }}>
           <CartesianGrid vertical={false} stroke="#2b1a14" strokeDasharray="3 3" strokeOpacity={0.12} />
-          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#2f241f', fillOpacity: 0.55, fontSize: 10 }} dy={8} />
-          <YAxis allowDecimals={false} axisLine={false} tickLine={false} tick={{ fill: '#2f241f', fillOpacity: 0.55, fontSize: 10 }} />
+          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#2f241f', fillOpacity: 0.7, fontSize: 10 }} dy={8} />
+          <YAxis allowDecimals={false} axisLine={false} tickLine={false} tick={{ fill: '#2f241f', fillOpacity: 0.7, fontSize: 10 }} />
           <Tooltip content={<DashboardTooltip />} cursor={{ fill: '#2b1a14', fillOpacity: 0.05 }} />
           <Bar dataKey="value" name="Clics" radius={[5, 5, 0, 0]} isAnimationActive animationDuration={1300} animationEasing="ease-out">
             {data.map((item) => <Cell key={item.name} fill={item.color} />)}
@@ -139,7 +164,7 @@ function QrDownloadCard() {
         <button
           type="button"
           onClick={handleDownload}
-          className="inline-flex items-center gap-2 border border-cacao bg-cacao px-4 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-marfil transition hover:border-dorado hover:bg-dorado hover:text-espresso"
+          className="inline-flex min-h-12 items-center gap-2 border border-cacao bg-cacao px-4 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-marfil transition hover:border-dorado hover:bg-dorado hover:text-espresso"
         >
           <Download size={15} aria-hidden="true" /> Descargar PNG
         </button>
@@ -156,7 +181,7 @@ function QrDownloadCard() {
             imageSettings={{ src: ruisenorLogo, height: 34, width: 34, excavate: true }}
           />
         </div>
-        <p className="max-w-sm text-sm leading-6 text-ink/60">Es el mismo código que verán los visitantes en la sección de Feria del sitio público. Descárgalo para imprimirlo en el stand, tarjetas o material promocional.</p>
+        <p className="max-w-sm text-sm leading-6 text-ink/70">Es el mismo código que verán los visitantes en la sección de Feria del sitio público. Descárgalo para imprimirlo en el stand, tarjetas o material promocional.</p>
       </div>
     </article>
   )
@@ -213,29 +238,30 @@ export function AnalyticsDashboard({ session }: AnalyticsDashboardProps) {
         <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.14]" style={grainOverlayStyle} aria-hidden="true" />
         <div className="relative z-10 mx-auto flex max-w-[1440px] items-center justify-between gap-5">
           <div className="flex items-center gap-4"><BrandLogo size="sm" className="rounded-full" /><div><p className="text-[0.58rem] font-bold uppercase tracking-[0.2em] text-dorado">Área privada</p><p className="mt-1 font-serif-brand text-2xl font-semibold">Analítica Ruiseñor</p></div></div>
-          <div className="flex items-center gap-3"><span className="hidden text-xs text-marfil/50 sm:block">{session.user.email}</span><button type="button" onClick={handleSignOut} className="inline-flex items-center gap-2 border border-marfil/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] transition hover:border-dorado hover:text-dorado"><LogOut size={15} aria-hidden="true" /> Salir</button></div>
+          <div className="flex items-center gap-3"><span className="hidden text-xs text-marfil/50 sm:block">{session.user.email}</span><button type="button" onClick={handleSignOut} className="inline-flex min-h-12 items-center gap-2 border border-marfil/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] transition hover:border-dorado hover:text-dorado"><LogOut size={15} aria-hidden="true" /> Salir</button></div>
         </div>
       </header>
 
       <div className="mx-auto max-w-[1440px] px-5 py-10 lg:px-10 lg:py-14">
         <div className="flex flex-col justify-between gap-6 border-b border-cacao/15 pb-8 md:flex-row md:items-end">
-          <div><p className="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-rojo-marca">Campaña activa</p><h1 className="mt-3 font-serif-brand text-5xl font-semibold leading-none text-cacao sm:text-7xl">{campaign?.name ?? 'Cargando campaña…'}</h1><p className="mt-4 flex items-center gap-2 text-sm text-ink/60"><CalendarDays size={16} aria-hidden="true" /> {campaign?.date ?? 'Consultando Supabase'}</p></div>
-          <div className="flex flex-wrap items-center gap-2"><div className="flex border border-cacao/15 bg-marfil p-1">{ranges.map((item) => <button key={item.label} type="button" onClick={() => setRange(item.value)} className={`px-3 py-2 text-[0.62rem] font-bold uppercase tracking-[0.12em] transition ${range === item.value ? 'bg-cacao text-marfil' : 'text-cacao/55 hover:text-cacao'}`}>{item.label}</button>)}</div><button type="button" onClick={() => void loadDashboard()} className="grid size-10 place-items-center border border-cacao/15 bg-marfil text-cacao transition hover:border-dorado" aria-label="Actualizar métricas"><RefreshCw size={17} aria-hidden="true" /></button></div>
+          <div><p className="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-rojo-marca">Campaña activa</p><h1 className="mt-3 font-serif-brand text-5xl font-semibold leading-none text-cacao sm:text-7xl">{campaign?.name ?? 'Cargando campaña…'}</h1><p className="mt-4 flex items-center gap-2 text-sm text-ink/70"><CalendarDays size={16} aria-hidden="true" /> {campaign?.date ?? 'Consultando Supabase'}</p></div>
+          <div className="flex flex-wrap items-center gap-2"><div className="flex border border-cacao/15 bg-marfil p-1">{ranges.map((item) => <button key={item.label} type="button" onClick={() => setRange(item.value)} className={`min-h-12 px-3 py-2 text-[0.62rem] font-bold uppercase tracking-[0.12em] transition ${range === item.value ? 'bg-cacao text-marfil' : 'text-cacao/70 hover:text-cacao'}`}>{item.label}</button>)}</div><button type="button" onClick={() => void loadDashboard()} className="grid size-12 place-items-center border border-cacao/15 bg-marfil text-cacao transition hover:border-dorado" aria-label="Actualizar métricas"><RefreshCw size={17} aria-hidden="true" /></button></div>
         </div>
 
         <QrDownloadCard />
 
         {error && <div className="mt-8 border border-rojo-marca/40 bg-rojo-marca/5 p-5 text-sm leading-6 text-rojo-marca">{error}</div>}
 
-        {loading ? <div className="mt-8 border border-dashed border-cacao/20 p-8 text-sm text-ink/55">Cargando métricas…</div> : summary && <>
-          <section className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {loading ? <div className="mt-8 border border-dashed border-cacao/20 p-8 text-sm text-ink/70">Cargando métricas…</div> : summary && <>
+          <FairQuizFunnel summary={summary} />
+          <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <MetricCard label="Visitas QR" value={summary.qrVisits} icon={Eye} />
             <MetricCard label="Visitantes únicos" value={summary.uniqueVisitors} icon={Users} />
             <MetricCard label="Clics TikTok" value={summary.tiktokClicks} icon={Send} accent="red" />
             <MetricCard label="Clics WhatsApp" value={summary.whatsappClicks} icon={MessageCircle} accent="red" />
           </section>
 
-          <section className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <section className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <MetricCard label="Productos consultados" value={summary.productsViewed} icon={MousePointerClick} />
             <MetricCard label="Promoción vista" value={summary.promotionViews} icon={Sparkles} />
             <MetricCard label="Clics Facebook" value={summary.facebookClicks} icon={Send} />
@@ -243,13 +269,13 @@ export function AnalyticsDashboard({ session }: AnalyticsDashboardProps) {
           </section>
 
           <section className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
-            <Reveal><article className="border border-cacao/15 bg-marfil p-5 sm:p-7"><div className="flex items-end justify-between gap-4"><div><p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-rojo-marca">Tráfico del QR</p><h2 className="mt-2 font-serif-brand text-3xl font-semibold text-cacao">Visitas por día</h2></div><span className="text-[0.6rem] font-bold uppercase tracking-[0.12em] text-ink/45">{lastUpdated}</span></div><div className="mt-6"><TrafficChart data={summary.daily} /></div></article></Reveal>
+            <Reveal><article className="border border-cacao/15 bg-marfil p-5 sm:p-7"><div className="flex items-end justify-between gap-4"><div><p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-rojo-marca">Tráfico del QR</p><h2 className="mt-2 font-serif-brand text-3xl font-semibold text-cacao">Visitas por día</h2></div><span className="text-[0.6rem] font-bold uppercase tracking-[0.12em] text-ink/70">{lastUpdated}</span></div><div className="mt-6"><TrafficChart data={summary.daily} /></div></article></Reveal>
             <Reveal transition={{ duration: 0.55, ease: 'easeOut', delay: 0.1 }}><article className="border border-cacao/15 bg-cacao p-5 text-marfil sm:p-7"><p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-dorado">Interés del catálogo</p><h2 className="mt-2 font-serif-brand text-3xl font-semibold">Productos más consultados</h2><div className="mt-7 space-y-4">{summary.topProducts.length ? summary.topProducts.map((product) => <div key={product.name}><div className="flex justify-between gap-4 text-sm"><span className="truncate">{product.name}</span><span className="font-bold text-dorado">{product.value}</span></div><div className="mt-2 h-1 bg-marfil/15"><div className="h-full bg-dorado" style={{ width: `${Math.max((product.value / summary.topProducts[0].value) * 100, 8)}%` }} /></div></div>) : <p className="text-sm leading-6 text-marfil/55">Aún no hay productos consultados.</p>}</div></article></Reveal>
           </section>
 
           <Reveal><section className="mt-6 border border-cacao/15 bg-marfil p-5 sm:p-7"><div><p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-rojo-marca">Canales de contacto</p><h2 className="mt-2 font-serif-brand text-3xl font-semibold text-cacao">Clics por red social</h2></div><div className="mt-5"><SocialChart summary={summary} /></div></section></Reveal>
 
-          <p className="mt-8 text-xs leading-5 text-ink/50">Los visitantes son anónimos y los visitantes únicos son una aproximación basada en el navegador. Campaña: {campaign?.slug}</p>
+          <p className="mt-8 text-xs leading-5 text-ink/70">Los visitantes son anónimos y los visitantes únicos son una aproximación basada en el navegador. Campaña: {campaign?.slug}</p>
         </>}
       </div>
     </main>

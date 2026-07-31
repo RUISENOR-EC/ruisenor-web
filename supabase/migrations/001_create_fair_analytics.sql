@@ -31,7 +31,12 @@ create table if not exists public.analytics_events (
     'facebook_click',
     'whatsapp_click',
     'promotion_view',
-    'coupon_click'
+    'coupon_click',
+    'social_view',
+    'fair_quiz_started',
+    'fair_quiz_answered',
+    'fair_quiz_completed',
+    'fair_recommendation_view'
   )),
   visitor_id text not null check (char_length(visitor_id) between 1 and 128),
   session_id text not null check (char_length(session_id) between 1 and 128),
